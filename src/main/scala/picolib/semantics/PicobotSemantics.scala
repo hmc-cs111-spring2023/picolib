@@ -1,9 +1,9 @@
 package picolib.semantics
 
 import picolib.maze._
-import picolib.rule._
+import picolib.semantics._
 
-import scala.collection.mutable.{Set=>Set}
+import scala.collection.mutable.Set
 
 /**
   *  A class that can set a robot loose on a maze. The robot starts at a random

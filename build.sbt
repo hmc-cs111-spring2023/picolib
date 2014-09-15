@@ -1,4 +1,4 @@
-name := "piconot"
+name := "picolib"
 
 version := "1.0"
 

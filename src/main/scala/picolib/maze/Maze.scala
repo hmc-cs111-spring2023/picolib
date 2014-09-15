@@ -47,7 +47,7 @@ class Maze(val width: Int, val height: Int, val wallPositions: Set[Position]) {
 	 */
 	def isInBounds(pos: Position) = 
 	  	(0 <= pos.x) && (pos.x < this.width) && 
-		(0 <= pos.y) && (pos.y < this.height)
+		  (0 <= pos.y) && (pos.y < this.height)
 
 	override def toString = {
 	  (0 until width).map(column => 
@@ -76,18 +76,18 @@ object Maze {
 	  */
 	def apply(data: List[String]): Maze = {
 		val height = data.length
-        val width = data(0).length
+    val width = data(0).length
 
 		// issue error if there are lines of unequal width
-		require(data.exists(l=>l.length != width) == false) 
+		require(data.exists(l=>l.length != width) == false)
 
-		// generate a collection of Positions -- one Position
-		// for each wall character in the file
-		val wall_positions = for {
-        						rowData <- data.zipWithIndex
-        						columnData <- rowData._1.zipWithIndex
-        						if columnData._1 == WALL_CHARACTER
-            				 } yield Position(columnData._2, rowData._2)
+    // generate a collection of Positions -- one Position
+    // for each wall character in the file
+    val wall_positions = for {
+      rowData ← data.zipWithIndex
+      columnData ← rowData._1.zipWithIndex
+      if columnData._1 == WALL_CHARACTER
+    } yield Position(columnData._2, rowData._2)
         
         new Maze(width, height, wall_positions.toSet)
 	 }
