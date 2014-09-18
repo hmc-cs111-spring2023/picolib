@@ -11,8 +11,8 @@ package picolib.maze
 case class Position(x: Int, y: Int) {
 
   def northOf = Position(x,   y-1)
-  def eastOf  = Position(x-1, y)
-  def westOf  = Position(x+1, y)
+  def eastOf  = Position(x+1, y)
+  def westOf  = Position(x-1, y)
   def southOf = Position(x,   y+1)
 
   override def toString = "(%d, %d)".format(x,y)
@@ -49,15 +49,15 @@ class Maze(val width: Int, val height: Int, val wallPositions: Set[Position]) {
 	  	(0 <= pos.x) && (pos.x < this.width) && 
 		  (0 <= pos.y) && (pos.y < this.height)
 
-	override def toString = {
-	  (0 until width).map(column => 
-	    (0 until height).map(row => 
-	    	if (isWall(Position(row, column))) 
-	    	  Maze.WALL_CHARACTER 
-	    	  else Maze.NOWALL_CHARACTER)
-	    	.mkString)
-	    .mkString("\n")  
-	}
+  override def toString = {
+    (0 until width).map(column ⇒
+      (0 until height).map(row ⇒
+        if (isWall(Position(row, column)))
+          Maze.WALL_CHARACTER
+        else Maze.NOWALL_CHARACTER)
+        .mkString)
+      .mkString("\n")
+  }
 }
 
 /** A Maze factory 
@@ -67,19 +67,20 @@ object Maze {
 	val WALL_CHARACTER = '+'
 	val NOWALL_CHARACTER = ' '
 
-	/** Parses a maze file (represented as a list of lines) and
-	  * results in a Maze. The method will issue an error if
-	  * the lines are of unequal width.
-	  *
-	  *  @param data a list of strings that describe the maze
-	  *  @return a Maze instance
-	  */
-	def apply(data: List[String]): Maze = {
-		val height = data.length
+  /**
+   * Parses a maze file (represented as a list of lines) and
+   * results in a Maze. The method will issue an error if
+   * the lines are of unequal width.
+   *
+   *  @param data a list of strings that describe the maze
+   *  @return a Maze instance
+   */
+  def apply(data: List[String]): Maze = {
+    val height = data.length
     val width = data(0).length
 
-		// issue error if there are lines of unequal width
-		require(data.exists(l=>l.length != width) == false)
+    // issue error if there are lines of unequal width
+    require(data.exists(l ⇒ l.length != width) == false)
 
     // generate a collection of Positions -- one Position
     // for each wall character in the file
@@ -88,7 +89,7 @@ object Maze {
       columnData ← rowData._1.zipWithIndex
       if columnData._1 == WALL_CHARACTER
     } yield Position(columnData._2, rowData._2)
-        
-        new Maze(width, height, wall_positions.toSet)
-	 }
+
+    new Maze(width, height, wall_positions.toSet)
+  }
 }
