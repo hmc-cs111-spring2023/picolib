@@ -1,4 +1,4 @@
-package picolib.semantics
+/*package picolib.semantics
 
 import scalafx.application.JFXApp
 import scalafx.scene.Scene
@@ -6,6 +6,7 @@ import scalafx.scene.paint.Color
 import scalafx.scene.shape.Rectangle
 import scalafx.stage.Screen
 import scalafx.scene.shape.Shape
+import scalafx.scene.layout.StackPane
 
 object Test extends JFXApp {
 
@@ -23,5 +24,7 @@ object Test extends JFXApp {
 
 class Canvas(blocks: Iterable[Shape]) extends Scene {
   fill = Color.White
-  content = blocks
-}
+  //root = new StackPane {
+    content = blocks
+  //}
+}*/

@@ -1,9 +1,10 @@
-package picolib.semantics
+/*package picolib.semantics
 
 //import scala.swing._
 //import java.awt.Color
 import scalafx.scene.shape._
 import scalafx.scene.paint.Color
+import scalafx.Includes._
 
 /*class SwingMaze(val width: Int, val height: Int)
     extends GridPanel(height, width) {
@@ -21,7 +22,7 @@ class MazeCell(minX: Double,  minY: Double) extends Rectangle {
   y = minY
   width  = SIZE
   height = SIZE
-  fill   = UNVISITED_COLOR
+  //fill   <== when(true) then Color.White otherwise Color.Gray 
 }
   
 /*class MazeCell extends Rectangle {
@@ -37,4 +38,4 @@ object MazeCell {
   val VISITED_COLOR   = Color.Gray
   val OCCUPIED_COLOR  = Color.Black
   val WALL_COLOR      = Color.Blue
-}
+}*/

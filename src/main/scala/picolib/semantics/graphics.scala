@@ -1,4 +1,4 @@
-package picolib.semantics
+/*package picolib.semantics
 
 import scala.swing._
 
@@ -14,4 +14,4 @@ object Swing extends SimpleSwingApplication {
     }*/
   }
 
-}
+}*/

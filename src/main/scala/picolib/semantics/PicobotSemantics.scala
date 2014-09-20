@@ -19,10 +19,12 @@ class Picobot(val maze: Maze, val rules: List[Rule]) {
   var state: State = rules(0).startState
   
   // the robot's current position (initially a random location)
-  private var position: Position = randomStartPosition(maze)  
+  private var _position: Position = randomStartPosition(maze)  
+  def position = _position
 
   // the positions that the robot has visited (initially empty)
-  private val visited: Set[Position] = Set.empty[Position]
+  private val _visited: Set[Position] = Set.empty[Position]
+  def visited = _visited
 
   // the total number of non-wall positions
   private var numOpenPositions: Int = maze.height * maze.width - maze.wallPositions.size
@@ -44,8 +46,8 @@ class Picobot(val maze: Maze, val rules: List[Rule]) {
     // error checking: can't move to an illegal position
     require(!maze.isWall(pos) && maze.isInBounds(pos))
     
-    position = pos
-    visited += pos
+    _position = pos
+    _visited += pos
   }
   
   override def toString =
@@ -74,16 +76,17 @@ class Picobot(val maze: Maze, val rules: List[Rule]) {
     * results of each step to the screen.
     */
   def run() {
-      var updated = true
-
-      while (numPositionsToVisit != 0 && updated) {
+    while (canMove) {
         println(this)
-        updated = rules.find(matchRule).map(this.update).isDefined
+        step()
         println()
       } 
       
       println(this)
   }
+  
+  def canMove = numPositionsToVisit != 0 && rules.find(matchRule).isDefined
+  def step(): Boolean = rules.find(matchRule).map(this.update).isDefined
   
   private def matchRule(rule: Rule): Boolean = {
       
