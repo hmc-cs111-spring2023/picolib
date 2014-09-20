@@ -102,4 +102,15 @@ object Maze {
 
     new Maze(width, height, wall_positions.toSet)
   }
+  
+  /**
+   * Parses a maze from a file (represented as a list of lines) and
+   * results in a Maze. The method will issue an error if the maze file
+   * doesn't exist or if it contains lines are of unequal width.
+   *
+   *  @param filename the name of a file with a maze in it
+   *  @return a Maze instance
+   */
+  def apply(filename: String): Maze =
+     Maze(io.Source.fromFile(filename).getLines().toList)
 }

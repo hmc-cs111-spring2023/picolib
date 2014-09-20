@@ -23,7 +23,7 @@ class Picobot(val maze: Maze, val rules: List[Rule]) {
   def position = _position
 
   // the positions that the robot has visited (initially empty)
-  private val _visited: Set[Position] = Set.empty[Position]
+  private var _visited: Set[Position] = Set.empty[Position]
   def visited = _visited
 
   // the total number of non-wall positions
@@ -33,9 +33,20 @@ class Picobot(val maze: Maze, val rules: List[Rule]) {
     * positions). When this value is 0, the robot's search is at an end.
     */
   def numPositionsToVisit: Int = numOpenPositions - visited.size
-
+  
   // drop the robot in the maze
   moveRobotTo(position)
+
+  /** 
+   * Reset the robot, so it can be re-run
+   */
+  def reset() = {
+    state = rules(0).startState
+    _position = randomStartPosition(maze)
+    _visited = Set.empty[Position]
+    numOpenPositions = maze.height * maze.width - maze.wallPositions.size
+    moveRobotTo(position)
+  }
 
   /** Move the robot to a specified position. 
     * 
