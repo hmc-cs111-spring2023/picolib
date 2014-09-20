@@ -15,6 +15,8 @@ import scala.collection.mutable.Set
 class Picobot(val maze: Maze, val rules: List[Rule]) {
   import Picobot._
   
+  require(rules.length > 0)
+  
   // the robot's current state
   var state: State = rules(0).startState
   
@@ -79,25 +81,28 @@ class Picobot(val maze: Maze, val rules: List[Rule]) {
       .mkString("\n") +  
       "\n%9s: %s\n%9s: %2s\n%9s: %s".format("Pos", position, "State", state,
                                             "Unvisited", numPositionsToVisit)
-  
-  /** Do the computation: set the robot loose on the maze. 
-    * The robot follows its rules in order to search the 
-    * maze. The search stops  when no rule applies to the current situation or when 
-    * the robot has visited all the open positions in the maze. This method prints the 
-    * results of each step to the screen.
-    */
-  def run() {
-    while (canMove) {
-        println(this)
-        step()
-        println()
-      } 
-      
-      println(this)
+
+  /**
+   * Do the computation: set the robot loose on the maze.
+   * The robot follows its rules in order to search the
+   * maze. The search stops  when no rule applies to the current situation or when
+   * the robot has visited all the open positions in the maze. This method prints the
+   * results of each step to the screen.
+   */
+  def run() = {
+    while (canMove)
+      step()
   }
   
+  /**
+   * @returns true if there is a rule that applies and the robot can move
+   */
   def canMove = numPositionsToVisit != 0 && rules.find(matchRule).isDefined
-  def step(): Boolean = rules.find(matchRule).map(this.update).isDefined
+  
+  /**
+   * Do one step of the computation
+   */
+  def step(): Unit = rules.find(matchRule).map(this.update)
   
   private def matchRule(rule: Rule): Boolean = {
       

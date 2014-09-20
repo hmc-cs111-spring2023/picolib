@@ -57,9 +57,9 @@ case class State(name: String) {
   *  is activated
   */
 case class Rule(startState:    State, 
-		        surroundings:  Surroundings, 
-		        moveDirection: MoveDirection, 
-		        endState:      State) 
+		            surroundings:  Surroundings, 
+		            moveDirection: MoveDirection, 
+		            endState:      State) 
 {		        
   override def toString = 
     startState + " " + surroundings + " -> " + moveDirection + " " + endState	  			   
