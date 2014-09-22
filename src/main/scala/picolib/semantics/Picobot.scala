@@ -95,7 +95,7 @@ class Picobot(val maze: Maze, val rules: List[Rule]) {
   }
   
   /**
-   * @returns true if there is a rule that applies and the robot can move
+   * @return true if there is a rule that applies and the robot can move
    */
   def canMove = numPositionsToVisit != 0 && rules.find(matchRule).isDefined
   
