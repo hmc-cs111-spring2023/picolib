@@ -1,7 +1,13 @@
 {
   "name": "CS 111",
   "image": "harveymudd/cs111",
-
+  "features": {
+    "desktop-lite": {
+      "password": "cs111",
+      "webPort": "6080",
+      "vncPort": "5901"
+    }
+  },
   "customizations": {
     "codespaces": {
       "openFiles": []
