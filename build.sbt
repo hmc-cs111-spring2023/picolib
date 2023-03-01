@@ -1,11 +1,20 @@
-name := "picolib"
+val scala3Version = "3.2.2"
 
-version := "1.0"
+lazy val root = project
+  .in(file("."))
+  .settings(
+    name := "scratch",
+    version := "0.1.0-SNAPSHOT",
+    scalaVersion := scala3Version,
+    scalacOptions ++= Seq(
+      "-deprecation",
+      "-explain"
+    ),
+    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.9" % Test,
+    libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.15.4" % Test,
+    libraryDependencies += "org.scalafx" %% "scalafx" % "18.0.1-R28"
+  )
 
-scalaVersion := "2.11.7"
-
-libraryDependencies ++= 
-  Seq( "org.scalatest" % "scalatest_2.11" % "2.2.1" % "test",
-       "org.scalafx" % "scalafx_2.11" % "8.0.5-R5" )
-
-assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false)
+// So that we can run GUI apps multiple times from a single sbt session
+// https://github.com/scalafx/scalafx/issues/361
+fork := true

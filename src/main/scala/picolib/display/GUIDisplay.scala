@@ -1,4 +1,7 @@
-package picolib.semantics
+package picolib.display
+
+import picolib.maze._
+import picolib.semantics._
 
 import scalafx.Includes._
 import scalafx.animation.Timeline
@@ -13,99 +16,83 @@ import scalafx.scene.paint.Color
 import scalafx.scene.control.Button
 import scalafx.scene.layout.HBox
 import scalafx.scene.layout.VBox
-import scalafx.application.JFXApp
+import scalafx.application.JFXApp3
 import scalafx.scene.Scene
 
-/**
- * A class to create a GUI display for a picobot
- * 
- * @constructor create a JFXApp that can display a Picobot
- * @param bot a Picobot with GUI controls
- * 
- * Note: There seems to be something wrong with the way ScalaFX does its
- * delayed initialization, so we need this wrapper class instead of mixing it
- * in as a trait :(.
- */
-class PicbotGUIApp(bot: GUIDisplay) extends JFXApp {
-  stage = bot.mainStage
-}
-
-/**
- * GUI controls and displays for a Picobot, based on ScalaFX
- */
+/** GUI controls and displays for a Picobot, based on ScalaFX
+  */
 trait GUIDisplay extends Picobot {
   import GUIDisplay._
-  
+
   private val runButton = new Button("Run") {
-    onAction = {e: ActionEvent ⇒ run()}
+    onAction = { (e: ActionEvent) => run() }
   }
-  
+
   private val stopButton = new Button("Stop") {
-    onAction = {e: ActionEvent ⇒ stop()}
+    onAction = { (e: ActionEvent) => stop() }
   }
-  
+
   private val stepButton = new Button("Step") {
-    onAction = {e: ActionEvent ⇒ step()}
+    onAction = { (e: ActionEvent) => step() }
   }
 
   private val resetButton = new Button("Reset") {
-    onAction = { e: ActionEvent ⇒ reset() }
+    onAction = { (e: ActionEvent) => reset() }
   }
-  
+
   // a pane with all the buttons to control the animation
-  private val buttonPane = 
-    new HBox{content=List(runButton, stopButton, stepButton, resetButton)}
-  
+  private val buttonPane =
+    new HBox { children = Seq(runButton, stopButton, stepButton, resetButton) }
+
   // a pane that contains a visualization for each cell in the maze
-  private val mazePane = new Pane{content = botboxes}
-  
+  private val mazePane = new Pane { children = botboxes }
+
   // a pane for the controller and the maze
-  private val botPane = new VBox {content = List(buttonPane, mazePane)}
-  
+  private val botPane = new VBox { children = Seq(buttonPane, mazePane) }
+
   /** use this as the main stage for an app */
-  val mainStage = new JFXApp.PrimaryStage {
-    width = CELL_SIZE * (maze.width) 
-    height = buttonPane.height.value + CELL_SIZE * (maze.height + 1)
+  val mainStage = new JFXApp3.PrimaryStage {
+    width = CELL_SIZE * (maze.width)
+    height = buttonPane.height.value + CELL_SIZE * (maze.height + 2)
     scene = new Scene { content = botPane }
   }
-  
+
   abstract override def step() = {
     stepAnimation.cycleCount = 1
     stepAnimation.play()
   }
-  
+
   abstract override def reset() = {
     stop()
     super.reset()
-    mazePane.content = botboxes
+    mazePane.children = botboxes
+    ()
   }
-  
+
   abstract override def run() = {
-    stepAnimation.cycleCount = INDEFINITE
+    stepAnimation.cycleCount = Indefinite
     stepAnimation.play()
   }
-  
+
   def stop() = stepAnimation.stop()
 
   /** an event that steps the bot and updates the display */
-  val stepEvent = {
-    event: ActionEvent ⇒
-      if (canMove) {
-        super.step()
-        mazePane.content = botboxes
-      }
+  val stepEvent = { (event: ActionEvent) =>
+    if (canMove) {
+      super.step()
+      mazePane.children = botboxes
+      ()
+    }
   }
-  
-  /** 
-   *  A timeline with one keyframe that steps the bot, then displays the results 
-   */
+
+  /** A timeline with one keyframe that steps the bot, then displays the results
+    */
   val stepAnimation = new Timeline {
     keyFrames = Seq(KeyFrame(10 ms, onFinished = stepEvent))
   }
-  
-   /**
-   * Make a GUI version of the maze
-   */
+
+  /** Make a GUI version of the maze
+    */
   def botboxes = {
 
     // Make a GUI cell at a given position, colored according to its contents
@@ -117,13 +104,12 @@ trait GUIDisplay extends Picobot {
         height = CELL_SIZE
         fill = cellColor(pos)
       }
-    
+
     this.maze.positions map makeCell
   }
-  
-  /**
-   * What color should a cell be?
-   */
+
+  /** What color should a cell be?
+    */
   def cellColor(pos: Position) = {
     if (this.maze.isWall(pos))
       WALL_COLOR
@@ -137,10 +123,10 @@ trait GUIDisplay extends Picobot {
 }
 
 object GUIDisplay {
-    val CELL_SIZE = 25
+  val CELL_SIZE = 25
 
-    val WALL_COLOR    = Color.Blue
-    val BOT_COLOR     = Color.Black
-    val VISITED_COLOR = Color.Grey
-    val BLANK_COLOR   = Color.White
+  val WALL_COLOR = Color.Blue
+  val BOT_COLOR = Color.Black
+  val VISITED_COLOR = Color.Grey
+  val BLANK_COLOR = Color.White
 }
