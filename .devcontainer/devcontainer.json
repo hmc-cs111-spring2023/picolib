@@ -23,5 +23,12 @@
         "terminal.integrated.defaultProfile.linux": "zsh"
       }
     }
-  }
+  },
+  "portsAttributes": {
+    "6080": {
+      "label": "Application",
+      "onAutoForward": "openPreview"
+    }
+  },
+  "forwardPorts": [6080]
 }
