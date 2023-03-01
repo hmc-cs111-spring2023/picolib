@@ -1,7 +1,6 @@
 import picolib._
 import picolib.maze._
 import picolib.semantics._
-import picolib.display._
 import java.io.File
 
 /** This is an intentionally bad internal language, but it uses all the parts of
