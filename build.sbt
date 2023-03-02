@@ -11,10 +11,5 @@ lazy val root = project
       "-explain"
     ),
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.9" % Test,
-    libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.15.4" % Test,
-    libraryDependencies += "org.scalafx" %% "scalafx" % "18.0.1-R28"
+    libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.15.4" % Test
   )
-
-// So that we can run GUI apps multiple times from a single sbt session
-// https://github.com/scalafx/scalafx/issues/361
-fork := true
